@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rio — Autonomous Browser AI</title>
+    <meta name="description" content="Rio is your autonomous AI browser agent that browses, registers accounts, and collects data on your behalf.">
+    <link rel="stylesheet" href="/static/style.css?v=9.0">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────── -->
+<header class="dashboard-header">
+    <div id="top-progress"></div>
+
+    <!-- Left: Brand -->
+    <div class="brand">
+        <div class="brand-logo">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+        </div>
+        <h1>Rio</h1>
+        <span class="status-pill" id="status-pill">Online</span>
+        <span id="step-badge" style="display:none;"></span>
+    </div>
+
+    <!-- Center: Nav -->
+    <div class="header-nav">
+        <button class="nav-btn" onclick="openSessionsModal()" title="Saved Sessions" id="sessions-nav-btn">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+            Sessions
+        </button>
+        <div class="nav-divider"></div>
+        <button class="nav-btn" onclick="openVaultModal()" title="Account Vault" id="vault-nav-btn">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            Vault
+        </button>
+        <div class="nav-divider"></div>
+        <button class="nav-btn" onclick="openRoutinesModal()" title="Routines" id="routines-nav-btn">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Routines
+        </button>
+        <div class="nav-divider"></div>
+        <button class="nav-btn" onclick="openDataModal()" title="Extracted Data" id="data-nav-btn">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+            Data
+        </button>
+    </div>
+
+    <!-- Right: Actions -->
+    <div class="header-actions">
+        <select id="api-selector" class="header-select" title="Choose AI Model">
+            <option value="auto">🤖 Auto Switch</option>
+            <option value="0" selected>⚡ Gemini 3.8 Flash</option>
+            <option value="1">🪶 Gemini 3.1 Flash-Lite</option>
+            <option value="2">🟢 Groq GPT-OSS-20B</option>
+            <option value="3">🟢 Groq Llama 3.3 70B</option>
+            <option value="4">🌐 OpenRouter Auto</option>
+            <option value="5" id="ollama-option" style="display:none">🧠 Ollama (loading...)</option>
+        </select>
+        <button class="icon-btn" onclick="toggleTheme()" title="Toggle Theme" id="theme-toggle">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        </button>
+        <button class="icon-btn" onclick="openSettingsModal()" title="Settings" id="settings-nav-btn">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        </button>
+        <button id="stop-btn" class="stop-button" onclick="stopAgent()" title="Stop Rio" style="display:none;">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
+        </button>
+    </div>
+</header>
+
+<!-- ── Main ──────────────────────────────────────── -->
+<div class="dashboard-main">
+
+    <!-- Left: Chat -->
+    <div class="chat-pane">
+        <div id="agent-status" class="agent-status" style="display:none;"></div>
+
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot">
+                <div class="msg-avatar">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    </svg>
+                </div>
+                <div class="message-content">
+                    Hi! I'm <strong>Rio</strong>, your autonomous browser agent. Give me a task — I'll browse, create accounts, and collect data for you automatically.
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-input-area">
+            <div class="chat-input-wrap">
+                <textarea id="chat-input" placeholder="Give Rio a task..." rows="1"></textarea>
+                <button class="mic-btn" id="mic-btn" title="Voice Input">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg>
+                </button>
+            </div>
+            <button id="send-btn" class="send-btn" title="Send">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+        </div>
+
+        <div class="chat-footer">
+            <button class="ghost-btn" onclick="saveSessionPrompt()" id="save-session-btn">
+                <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+                Save
+            </button>
+            <button class="ghost-btn" onclick="exportChat()" id="export-chat-btn">
+                <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                Export
+            </button>
+            <button class="ghost-btn danger" onclick="clearChat()" id="clear-chat-btn">
+                <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                Clear
+            </button>
+            <!-- Stats bar -->
+            <div class="stats-bar" style="margin-left:auto; padding:0; border:none; background:none; gap:10px;">
+                <div class="stat-item">
+                    <span>Steps:</span>
+                    <span class="stat-value" id="stat-steps">0</span>
+                </div>
+                <div class="stat-dot"></div>
+                <div class="stat-item">
+                    <span>Shots:</span>
+                    <span class="stat-value" id="stat-shots">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right: Live View -->
+    <div class="view-pane">
+        <div class="view-header">
+            <div class="view-header-left">
+                <div class="view-title">Live Browser View</div>
+                <div class="view-subtitle" id="view-subtitle">Waiting for task...</div>
+            </div>
+            <div class="view-actions">
+                <button class="icon-btn" onclick="toggleViewMode()" title="Toggle Grid/List" id="view-mode-btn">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                </button>
+                <button class="icon-btn" onclick="fullscreenLatest()" title="Fullscreen Latest Screenshot" id="fullscreen-btn">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+                </button>
+                <button class="icon-btn" id="clear-view-btn" title="Clear Screenshots">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                </button>
+            </div>
+        </div>
+        <div id="live-view-content">
+            <div class="live-view-placeholder">
+                <div class="placeholder-icon">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </div>
+                <h3>Rio is ready</h3>
+                <p>Start a task and watch Rio browse in real-time.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── Settings Modal ──────────────────────────────────── -->
+<div class="modal-overlay" id="settings-modal">
+    <div class="modal-sheet narrow">
+        <div class="modal-header">
+            <div class="modal-header-left">
+                <div class="modal-icon">
+                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                </div>
+                <div>
+                    <div class="modal-title">Settings</div>
+                    <div class="modal-subtitle">Rio configuration</div>
+                </div>
+            </div>
+            <button class="close-btn" onclick="closeSettingsModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="section-label">Browser</div>
+            <div class="setting-row">
+                <div>
+                    <label for="headless-toggle">Headless Mode</label>
+                    <div class="setting-hint">Run browser invisibly in background</div>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" id="headless-toggle">
+                    <div class="toggle-track"></div>
+                </label>
+            </div>
+            <div class="setting-row">
+                <div>
+                    <label for="video-toggle">Record Video</label>
+                    <div class="setting-hint">Save task session as video file</div>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" id="video-toggle">
+                    <div class="toggle-track"></div>
+                </label>
+            </div>
+            <div class="section-label" style="margin-top:8px;">Performance</div>
+            <div class="speed-row">
+                <label for="speed-slider">Speed</label>
+                <input type="range" id="speed-slider" min="1" max="10" value="3">
+                <span id="speed-value">3s delay</span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="closeSettingsModal()">Save Settings</button>
+            <button class="btn btn-ghost" onclick="closeSettingsModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── Vault Modal ──────────────────────────────────── -->
+<div class="modal-overlay" id="vault-modal">
+    <div class="modal-sheet">
+        <div class="modal-header">
+            <div class="modal-header-left">
+                <div class="modal-icon">
+                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                </div>
+                <div>
+                    <div class="modal-title">Account Vault</div>
+                    <div class="modal-subtitle">Credentials saved by Rio</div>
+                </div>
+            </div>
+            <button class="close-btn" onclick="closeVaultModal()">&times;</button>
+        </div>
+        <div class="modal-body" style="padding:0;">
+            <table class="vault-table">
+                <thead>
+                    <tr>
+                        <th>Platform</th>
+                        <th>Username / Email</th>
+                        <th>Password</th>
+                    </tr>
+                </thead>
+                <tbody id="vault-tbody">
+                    <tr><td colspan="3" class="empty-state">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-ghost" onclick="closeVaultModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── Sessions Modal ──────────────────────────────────── -->
+<div class="modal-overlay" id="sessions-modal">
+    <div class="modal-sheet">
+        <div class="modal-header">
+            <div class="modal-header-left">
+                <div class="modal-icon">
+                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                </div>
+                <div>
+                    <div class="modal-title">Saved Sessions</div>
+                    <div class="modal-subtitle">Restore past conversations</div>
+                </div>
+            </div>
+            <button class="close-btn" onclick="closeSessionsModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="sessions-list">
+            <div class="empty-state">Loading sessions...</div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-ghost" onclick="closeSessionsModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── Routines Modal ──────────────────────────────────── -->
+<div class="modal-overlay" id="routines-modal">
+    <div class="modal-sheet">
+        <div class="modal-header">
+            <div class="modal-header-left">
+                <div class="modal-icon">
+                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                </div>
+                <div>
+                    <div class="modal-title">Routines</div>
+                    <div class="modal-subtitle">Saved tasks for quick launch</div>
+                </div>
+            </div>
+            <button class="close-btn" onclick="closeRoutinesModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div id="routines-list"></div>
+            <div class="divider"></div>
+            <div class="section-label">Add New Routine</div>
+            <div>
+                <div class="field-label">Title</div>
+                <input type="text" id="routine-title" class="modern-input" placeholder="e.g. Daily Job Search">
+            </div>
+            <div>
+                <div class="field-label">Task Prompt</div>
+                <textarea id="routine-prompt" class="modern-input" rows="3" placeholder="e.g. Search khamsat.com for new data entry jobs..."></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" id="add-routine-btn">+ Add Routine</button>
+            <button class="btn btn-ghost" onclick="closeRoutinesModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── Extracted Data Modal ──────────────────────────────────── -->
+<div class="modal-overlay" id="data-modal">
+    <div class="modal-sheet">
+        <div class="modal-header">
+            <div class="modal-header-left">
+                <div class="modal-icon">
+                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                </div>
+                <div>
+                    <div class="modal-title">Extracted Data</div>
+                    <div class="modal-subtitle">Data collected by Rio during tasks</div>
+                </div>
+            </div>
+            <button class="close-btn" onclick="closeDataModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="data-modal-body">
+            <div class="empty-state">No data extracted yet. Run a task with save_data to collect data.</div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="downloadData()" id="download-data-btn">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                Download JSON
+            </button>
+            <button class="btn btn-ghost" onclick="closeDataModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<script src="/static/script.js?v=9.0"></script>
+</body>
+</html>
