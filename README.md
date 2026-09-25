@@ -1,15 +1,18 @@
 <div align="center">
 
-<!-- Animated Header Banner -->
+<!-- ═══════════════════ ANIMATED CAPSULE HEADER ═══════════════════ -->
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=1,11,21,31&height=220&section=header&text=RIO%20BA&fontSize=68&fontColor=ffffff&animation=twinkling&fontAlignY=38&desc=Autonomous%20AI%20Browser%20Agent%20%7C%20Stealth%20%E2%80%A2%20Vision%20%E2%80%A2%20Multi-LLM&descSize=19&descAlignY=60&descAlign=50" width="100%"/>
+
+<!-- ═══════════════════ ANIMATED TYPING SUBTITLE ═══════════════════ -->
 <a href="https://github.com/Yahia-Elhamzawy/RioBA">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=32&duration=2800&pause=1000&color=38BDF8&center=true&vCenter=true&multiline=true&width=800&height=120&lines=⚡+Rio+BA+—+Autonomous+Browser+AI;🤖+Vision-Powered+•+Stealth+Automation;🌐+Multi-LLM+•+Zero-Detection+•+Self-Healing" alt="Rio BA Typing Banner" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=23&duration=2800&pause=1000&color=38BDF8&center=true&vCenter=true&multiline=true&width=800&height=100&lines=⚡+Bypasses+Anti-Bot+Filters+with+Stealth+Perception;🧠+Powered+by+Gemini+3.8+Flash+%26+Groq+Llama+3.3;🛡️+Zero-Detection+Playwright+•+Self-Healing+Workflows;📊+Extracts+Structured+Data+%26+Exports+Playwright+Code" alt="Rio BA Typing" />
 </a>
 
 <p align="center">
-  <strong>An Intelligent, Autonomous AI Browser Agent that browses, interacts, automates, and extracts data with human-like precision.</strong>
+  <strong>An Intelligent, Autonomous Web AI Agent that browses, automates, interacts, and extracts data with human-like stealth.</strong>
 </p>
 
-<!-- Shields / Badges -->
+<!-- ═══════════════════ BADGES ═══════════════════ -->
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python Version" />
   <img src="https://img.shields.io/badge/Playwright-v1.40+-2EAD33?style=for-the-badge&logo=playwright&logoColor=white" alt="Playwright" />
@@ -19,18 +22,35 @@
   <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" alt="License" />
 </p>
 
+<!-- ═══════════════════ REPO STATS BADGES ═══════════════════ -->
 <p align="center">
-  <a href="#-key-features">Key Features</a> •
-  <a href="#-architecture">Architecture</a> •
-  <a href="#-quick-start">Quick Start</a> •
-  <a href="#-configuration--api-keys">Configuration</a> •
-  <a href="#-troubleshooting">Troubleshooting</a> •
-  <a href="#-repository">Repository</a>
+  <img src="https://img.shields.io/github/stars/Yahia-Elhamzawy/RioBA?style=flat-square&color=ffd700&logo=star&logoColor=black" alt="Stars" />
+  <img src="https://img.shields.io/github/forks/Yahia-Elhamzawy/RioBA?style=flat-square&color=00f0ff&logo=git&logoColor=black" alt="Forks" />
+  <img src="https://img.shields.io/github/issues/Yahia-Elhamzawy/RioBA?style=flat-square&color=ff0055&logo=github" alt="Issues" />
+  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" alt="PRs Welcome" />
 </p>
 
----
+<p align="center">
+  <a href="#-interactive-demo">Demo</a> •
+  <a href="#-key-features">Features</a> •
+  <a href="#-architecture">Architecture</a> •
+  <a href="#-quick-start">Quick Start</a> •
+  <a href="#-configuration--api-keys">API Keys</a> •
+  <a href="#-troubleshooting">FAQ</a>
+</p>
+
+<!-- ═══════════════════ GLOWING DIVIDER ═══════════════════ -->
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
 
 </div>
+
+## 📺 Interactive Live Terminal Demo
+
+<div align="center">
+  <img src="assets/demo-terminal.svg" alt="Rio BA Live Terminal Simulation" width="100%" />
+</div>
+
+---
 
 ## 🌟 Overview
 
@@ -56,7 +76,7 @@ Whether automating job applications, managing social media, extracting competiti
   <tr>
     <td width="50%">
       <h3>⚡ Multi-LLM Smart Router</h3>
-      Switch on-the-fly between <b>Gemini 3.8 Flash</b> (high speed & multimodal), <b>Groq Llama 3.3 70B</b> (ultra-low latency), <b>OpenRouter</b>, or <b>Ollama</b> (100% offline & local).
+      Switch on-the-fly between <b>Gemini 3.8 Flash</b> (ultra-fast multimodal), <b>Groq Llama 3.3 70B</b> (low latency), <b>OpenRouter</b>, or <b>Ollama</b> (100% offline & local).
     </td>
     <td width="50%">
       <h3>🔐 Account Vault & Session State</h3>
@@ -194,6 +214,8 @@ RioBA/
 ├── 📄 requirements.txt       # Python dependencies list
 ├── 📄 run.bat                # 1-Click launcher for Windows
 ├── 📄 .gitignore             # Shields .env, vault, and user browser data
+├── 📁 assets/                # Animated SVGs, diagrams and visual branding
+│   └── 📄 demo-terminal.svg  # Animated interactive terminal graphic
 ├── 📁 static/                # Dashboard interface (HTML5, Modern CSS, JS)
 │   ├── 📄 index.html         # Agent Control Center & Chat UI
 │   ├── 📄 style.css          # Dark neon glassmorphic styling
@@ -257,6 +279,9 @@ Distributed under the **MIT License**. See `LICENSE` for more information.
 - **Author:** [Yahia Elhamzawy](https://github.com/Yahia-Elhamzawy)
 - **Repository:** [https://github.com/Yahia-Elhamzawy/RioBA.git](https://github.com/Yahia-Elhamzawy/RioBA.git)
 
+<!-- ═══════════════════ ANIMATED CAPSULE FOOTER ═══════════════════ -->
 <div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=31,21,11,1&height=120&section=footer" width="100%"/>
+  <br/>
   <sub>Built with ❤️ for the open-source web automation community.</sub>
 </div>

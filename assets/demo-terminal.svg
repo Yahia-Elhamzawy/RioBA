@@ -1,0 +1,115 @@
+<svg fill="none" viewBox="0 0 800 420" width="100%" height="420" xmlns="http://www.w3.org/2000/svg">
+  <foreignObject width="100%" height="100%">
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <style>
+        .terminal-container {
+          background: #0d1117;
+          border-radius: 12px;
+          border: 1px solid rgba(56, 189, 248, 0.3);
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(56, 189, 248, 0.15);
+          font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+          color: #e6edf3;
+          padding: 16px 20px;
+          height: 380px;
+          box-sizing: border-box;
+          overflow: hidden;
+        }
+        .terminal-header {
+          display: flex;
+          align-items: center;
+          padding-bottom: 12px;
+          border-bottom: 1px solid #21262d;
+          margin-bottom: 14px;
+        }
+        .dots {
+          display: flex;
+          gap: 8px;
+        }
+        .dot {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+        }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+        .terminal-title {
+          flex: 1;
+          text-align: center;
+          font-size: 13px;
+          color: #8b949e;
+          letter-spacing: 0.5px;
+        }
+        .terminal-body {
+          font-size: 13.5px;
+          line-height: 1.6;
+        }
+        .prompt {
+          color: #38bdf8;
+          font-weight: 600;
+        }
+        .cmd {
+          color: #f1f5f9;
+        }
+        .line {
+          opacity: 0;
+          animation: fadeIn 0.4s ease-in-out forwards;
+        }
+        .line-1 { animation-delay: 0.2s; }
+        .line-2 { animation-delay: 0.8s; }
+        .line-3 { animation-delay: 1.4s; }
+        .line-4 { animation-delay: 2.0s; }
+        .line-5 { animation-delay: 2.6s; }
+        .line-6 { animation-delay: 3.2s; }
+        .line-7 { animation-delay: 3.8s; }
+        .line-8 { animation-delay: 4.4s; }
+        .line-9 { animation-delay: 5.0s; }
+        
+        .tag-info { color: #38bdf8; font-weight: 600; }
+        .tag-success { color: #34d399; font-weight: 600; }
+        .tag-stealth { color: #c084fc; font-weight: 600; }
+        .tag-gemini { color: #fbbf24; font-weight: 600; }
+        .tag-action { color: #f43f5e; font-weight: 600; }
+        
+        .cursor {
+          display: inline-block;
+          width: 8px;
+          height: 15px;
+          background: #38bdf8;
+          vertical-align: middle;
+          margin-left: 4px;
+          animation: blink 1s infinite;
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(4px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes blink {
+          0%, 50% { opacity: 1; }
+          51%, 100% { opacity: 0; }
+        }
+      </style>
+      <div class="terminal-container">
+        <div class="terminal-header">
+          <div class="dots">
+            <div class="dot dot-red"></div>
+            <div class="dot dot-yellow"></div>
+            <div class="dot dot-green"></div>
+          </div>
+          <div class="terminal-title">rio-ba@engine: ~ (Autonomous Stealth Agent)</div>
+        </div>
+        <div class="terminal-body">
+          <div class="line line-1"><span class="prompt">rio@agent:~$</span> <span class="cmd">python server.py --task "Research jobs &amp; extract data"</span></div>
+          <div class="line line-2"><span class="tag-info">[Ollama]</span> <span class="tag-success">✓</span> Discovered local models • Offline inference enabled</div>
+          <div class="line line-3"><span class="tag-gemini">[LLM Router]</span> Connected to <b style="color:#fde047;">Gemini 3.8 Flash</b> (Response Latency: 2.1s)</div>
+          <div class="line line-4"><span class="tag-stealth">[Stealth Engine]</span> Chromium launched (fingerprint spoofed, webdriver undefined)</div>
+          <div class="line line-5"><span class="tag-info">[Perception]</span> Hybrid Vision active: DOM interactive tree + 55% quality snapshot</div>
+          <div class="line line-6"><span class="tag-action">[Action 1/8]</span> Navigating to target portal → Popups auto-dismissed</div>
+          <div class="line line-7"><span class="tag-action">[Action 2/8]</span> Smart Element Match: found input <code style="color:#e2e8f0;">[data-testid="search"]</code> via fallback chain</div>
+          <div class="line line-8"><span class="tag-stealth">[Anti-Bot]</span> Cloudflare Challenge detected → Humanized mouse curve bypass: <span class="tag-success">PASSED</span></div>
+          <div class="line line-9"><span class="tag-success">✨ Task Complete!</span> 14 records extracted → Exported to <code style="color:#a5b4fc;">playwright_script.py</code> <span class="cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </foreignObject>
+</svg>
